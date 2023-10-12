@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seata.mapper.AccountMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.seata.entity.Account" id="accountMap">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="money" column="money" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,money
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="accountMap">
+        select
+            <include refid="Base_Column_List" />
+        from
+            t_account
+        where
+            id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="getByUserId" resultType="com.seata.entity.Account">
+        select
+            <include refid="Base_Column_List" />
+        from
+            t_account
+        where
+            user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.seata.entity.Account" useGeneratedKeys="true">
+        insert into t_account
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="money != null">money,</if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=BIGINT},</if>
+                <if test="userId != null">#{userId,jdbcType=BIGINT},</if>
+                <if test="money != null">#{money,jdbcType=DECIMAL},</if>
+            </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.seata.entity.Account">
+        update t_account
+            <set>
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="money != null">
+                money = #{money,jdbcType=DECIMAL},
+            </if>
+            </set>
+        where   id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_account WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+</mapper>

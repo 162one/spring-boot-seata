@@ -1,0 +1,145 @@
+server:
+  port: 8078
+  undo:
+    logDeletePeriod: 86400000
+    logSaveDays: 7
+spring:
+  application:
+    name: user-center
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+    dynamic:
+      primary: user
+      strict: false # 严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      seata: true # seata1.0之后支持自动代理 这里直接配置true,seata.enable-auto-data-source-proxy=false
+      seata-mode: AT # seata模式使用的at
+      # 配置全局druid参数，请按需配置
+      druid:
+        #监控统计拦截的filters
+        filters: stat
+        #配置初始化大小/最小/最大
+        initial-size: 1
+        # 最小连接池数量
+        min-idle: 1
+        # 最大连接池数量
+        max-active: 20
+        #获取连接等待超时时间
+        max-wait: 60000
+        #间隔多久进行一次检测，检测需要关闭的空闲连接
+        time-between-eviction-runs-millis: 60000
+        #一个连接在池中最小生存的时间
+        min-evictable-idle-time-millis: 300000
+        # 用来检测连接是否有效的 sql 因数据库方言而异, 例如 oracle 应该写成 SELECT 1 FROM DUAL
+        validation-query: SELECT 'x'
+        # 建议配置为 true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于 timeBetweenEvictionRunsMillis，执行 validationQuery 检测连接是否有效。
+        test-while-idle: true
+        # 申请连接时执行 validationQuery 检测连接是否有效，做了这个配置会降低性能。
+        test-on-borrow: false
+        # 归还连接时执行 validationQuery 检测连接是否有效，做了这个配置会降低性能。
+        test-on-return: false
+        #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+        pool-prepared-statements: false
+        max-pool-prepared-statement-per-connection-size: 20
+        stat:
+          merge-sql: true
+          log-slow-sql: true
+          slow-sql-millis: 2000
+#        # 初始化时建立物理连接的个数。初始化发生在显示调用 init 方法，或者第一次 getConnection 时
+#        initialSize: 5
+#        # 最小连接池数量
+#        minIdle: 5
+#        # 最大连接池数量
+#        maxActive: 10
+#        # 获取连接时最大等待时间，单位毫秒。配置了 maxWait 之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置 useUnfairLock 属性为 true 使用非公平锁。
+#        maxWait: 60000
+#        # Destroy 线程会检测连接的间隔时间，如果连接空闲时间大于等于 minEvictableIdleTimeMillis 则关闭物理连接。
+#        timeBetweenEvictionRunsMillis: 60000
+#        # 连接保持空闲而不被驱逐的最小时间
+#        minEvictableIdleTimeMillis: 300000
+#        # 用来检测连接是否有效的 sql 因数据库方言而异, 例如 oracle 应该写成 SELECT 1 FROM DUAL
+#        validationQuery: SELECT 1
+#        # 建议配置为 true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于 timeBetweenEvictionRunsMillis，执行 validationQuery 检测连接是否有效。
+#        testWhileIdle: false
+#        # 申请连接时执行 validationQuery 检测连接是否有效，做了这个配置会降低性能。
+#        testOnBorrow: false
+#        # 归还连接时执行 validationQuery 检测连接是否有效，做了这个配置会降低性能。
+#        testOnReturn: false
+#        # 是否自动回收超时连接
+#        removeAbandoned: false
+#        # 超时时间 (以秒数为单位)
+#        remove-abandoned-timeout: 1800
+#        logAbandoned: true
+#        pinGlobalTxToPhysicalConnection: true
+#        filter: stat
+      datasource:
+        user:
+          username: root
+          password: root
+          url: jdbc:mysql://localhost:3306/user_center?allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        order:
+          username: root
+          password: root
+          url: jdbc:mysql://localhost:3306/order_center?allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+          driver-class-name: com.mysql.cj.jdbc.Driver
+
+      # WebStatFilter 用于采集 web-jdbc 关联监控的数据。
+      web-stat-filter:
+        # 是否开启 WebStatFilter 默认是 true
+        enabled: true
+        # 需要拦截的 url
+        url-pattern: /*
+        # 排除静态资源的请求
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      # Druid 内置提供了一个 StatViewServlet 用于展示 Druid 的统计信息。
+      stat-view-servlet:
+        #是否启用 StatViewServlet 默认值 true
+        enabled: true
+        # 需要拦截的 url
+        url-pattern: /druid/*
+        # 允许清空统计数据
+        reset-enable: true
+        login-username:
+        login-password:
+seata:
+  # 是否开启spring-boot自动装配，seata-spring-boot-starter 专有配置，默认true
+  enabled: true
+  # 是否开启数据源自动代理，seata-spring-boot-starter专有配置，默认会开启数据源自动代理，可通过该配置项关闭
+  enable-auto-data-source-proxy: false
+  # 随便起个名字,但最好与服务名称一致
+  application-id: ${spring.application.name}
+  # 配置自定义事务组名称，需与下方server.vgroupMapping配置一致，程序会通过用户配置的配置中心去寻找service.vgroupMapping
+  tx-service-group: my_test_tx_group
+  config:
+    type: file
+    file:
+      name: "file.conf"
+  registry:
+    file:
+      name: "file.conf"
+    type: file
+#  service:
+#    # 应用程序（客户端）会通过用户配置的配置中心去寻找service.vgroupMapping.[事务分组配置项]
+#    vgroup-mapping:
+#      # 事务分组配置项[mygroup]对应的值为TC集群名[default]
+#      mygroup : my_test_tx_group
+#    # 全局事务开关，默认false。false为开启，true为关闭
+#    disable-global-transaction: false
+#  client:
+#    rm:
+#      report-success-enable: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml
+
+
