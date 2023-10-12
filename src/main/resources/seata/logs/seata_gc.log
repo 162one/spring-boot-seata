@@ -1,0 +1,11 @@
+Java HotSpot(TM) 64-Bit Server VM (25.361-b09) for windows-amd64 JRE (1.8.0_361-b09), built on Jan  9 2023 08:38:53 by "java_re" with MS VC++ 15.9 (VS2017)
+Memory: 4k page, physical 16617540k(4071044k free), swap 26054724k(6750424k free)
+CommandLine flags: -XX:CMSInitiatingOccupancyFraction=75 -XX:+CMSParallelRemarkEnabled -XX:CompressedClassSpaceSize=260046848 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=C:\Users\NINGMEI\Desktop\seata\bin\\../logs/java_heapdump.hprof -XX:InitialHeapSize=2147483648 -XX:MaxDirectMemorySize=1073741824 -XX:MaxHeapSize=2147483648 -XX:MaxMetaspaceSize=268435456 -XX:MaxNewSize=1073741824 -XX:MetaspaceSize=134217728 -XX:NewSize=1073741824 -XX:-OmitStackTraceInFastThrow -XX:+PrintGC -XX:+PrintGCTimeStamps -XX:SurvivorRatio=10 -XX:ThreadStackSize=512 -XX:-UseAdaptiveSizePolicy -XX:+UseCMSInitiatingOccupancyOnly -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:-UseLargePagesIndividualAllocation -XX:+UseParallelGC 
+1582.736: [GC (Allocation Failure)  874496K->18356K(2010112K), 0.0088031 secs]
+10088.003: [GC (Allocation Failure)  892852K->10110K(2010112K), 0.0052436 secs]
+20880.997: [GC (Allocation Failure)  884606K->9430K(2010112K), 0.0054734 secs]
+28426.002: [GC (Allocation Failure)  883926K->16822K(2010112K), 0.0076057 secs]
+40000.004: [GC (Allocation Failure)  891318K->16678K(2010112K), 0.0063232 secs]
+51551.006: [GC (Allocation Failure)  891174K->16711K(2010112K), 0.0070550 secs]
+63344.997: [GC (Allocation Failure)  891207K->16590K(2010112K), 0.0058694 secs]
+75181.009: [GC (Allocation Failure)  891086K->16574K(2010112K), 0.0070659 secs]
