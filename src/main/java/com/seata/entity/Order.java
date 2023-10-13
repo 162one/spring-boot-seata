@@ -26,6 +26,26 @@ public class Order implements Serializable {
     @ApiModelProperty("")
     private Long id;
 	/**
+	 *
+	 */
+    @ApiModelProperty("")
+    private Long productId;
+	/**
+	 *
+	 */
+    @ApiModelProperty("")
+    private String productName;
+	/**
+	 *
+	 */
+	@ApiModelProperty("")
+	private BigDecimal price;
+	/**
+	 *
+	 */
+	@ApiModelProperty("")
+	private Integer quantity;
+	/**
 	 *	
 	 */
     @ApiModelProperty("")

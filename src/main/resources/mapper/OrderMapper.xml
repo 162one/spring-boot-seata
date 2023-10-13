@@ -6,13 +6,17 @@
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.seata.entity.Order" id="orderMap">
         <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="productId" column="product_id" jdbcType="INTEGER"/>
+        <result property="productName" column="product_name" jdbcType="VARCHAR"/>
+        <result property="quantity" column="quantity" jdbcType="INTEGER"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
         <result property="money" column="money" jdbcType="DECIMAL"/>
         <result property="sellerId" column="seller_id" jdbcType="BIGINT"/>
         <result property="buyerId" column="buyer_id" jdbcType="BIGINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,money,seller_id,buyer_id
+        id,product_id,product_name,quantity,price,money,seller_id,buyer_id
     </sql>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="orderMap">
@@ -28,12 +32,20 @@
         insert into `t_order`
             <trim prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id != null">id,</if>
+                <if test="productId != null">product_id,</if>
+                <if test="productName != null">product_name,</if>
+                <if test="quantity != null">quantity,</if>
+                <if test="price != null">price,</if>
                 <if test="money != null">money,</if>
                 <if test="sellerId != null">seller_id,</if>
                 <if test="buyerId != null">buyer_id,</if>
             </trim>
             <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
+                <if test="productId != null">#{productId,jdbcType=BIGINT},</if>
+                <if test="productName != null">#{productName,jdbcType=VARCHAR},</if>
+                <if test="quantity != null">#{quantity,jdbcType=INTEGER},</if>
+                <if test="price != null">#{price,jdbcType=DECIMAL},</if>
                 <if test="money != null">#{money,jdbcType=DECIMAL},</if>
                 <if test="sellerId != null">#{sellerId,jdbcType=BIGINT},</if>
                 <if test="buyerId != null">#{buyerId,jdbcType=BIGINT},</if>
@@ -45,6 +57,18 @@
             <set>
             <if test="id != null">
                 id = #{id,jdbcType=BIGINT},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="productName != null">
+                product_name = #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity,jdbcType=INTEGER},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
             </if>
             <if test="money != null">
                 money = #{money,jdbcType=DECIMAL},

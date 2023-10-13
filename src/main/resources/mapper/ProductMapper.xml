@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seata.mapper.ProductMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.seata.entity.Product" id="productMap">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,price
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="productMap">
+        select
+            <include refid="Base_Column_List" />
+        from
+            t_product
+        where
+            id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.seata.entity.Product" useGeneratedKeys="true">
+        insert into t_product
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="name != null">name,</if>
+                <if test="price != null">price,</if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=BIGINT},</if>
+                <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+                <if test="price != null">#{price,jdbcType=DECIMAL},</if>
+            </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.seata.entity.Product">
+        update t_product
+            <set>
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            </set>
+        where   id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_product WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+</mapper>

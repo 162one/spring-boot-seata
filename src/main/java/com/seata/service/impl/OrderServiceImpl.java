@@ -2,18 +2,15 @@ package com.seata.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.dynamic.datasource.annotation.DS;
-import com.seata.entity.Account;
-import com.seata.entity.Order;
-import com.seata.entity.User;
+import com.seata.entity.*;
 import com.seata.mapper.OrderMapper;
-import com.seata.service.AccountService;
-import com.seata.service.OrderService;
-import com.seata.service.UserService;
+import com.seata.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 
 /**
  * @author wz
@@ -30,6 +27,10 @@ public class OrderServiceImpl implements OrderService {
     private AccountService accountService;
     @Resource
     private UserService userService;
+    @Resource
+    private ProductService productService;
+    @Resource
+    private StorageService storageService;
 
     /**
      * 详细信息
@@ -70,6 +71,14 @@ public class OrderServiceImpl implements OrderService {
         log.info("OrderFacadeImpl.insert:入参：order:{}", JSON.toJSON(order));
         User seller = userService.getById(order.getSellerId());
         User buyer = userService.getById(order.getBuyerId());
+
+        Product product = productService.getById(order.getProductId());
+        Storage storage = storageService.getByProductId(order.getProductId());
+        order.setProductName(product.getName());
+        order.setPrice(product.getPrice());
+        order.setMoney(product.getPrice().multiply(BigDecimal.valueOf(order.getQuantity())));
+        storage.setQuantity(storage.getQuantity() - order.getQuantity());
+        storageService.updateById(storage);
 
         Account sellerAccount = accountService.updateAccount(order, seller, 1);
         Account buyerAccount = accountService.updateAccount(order, buyer, 2);
