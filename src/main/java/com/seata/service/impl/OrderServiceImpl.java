@@ -77,13 +77,16 @@ public class OrderServiceImpl implements OrderService {
         order.setProductName(product.getName());
         order.setPrice(product.getPrice());
         order.setMoney(product.getPrice().multiply(BigDecimal.valueOf(order.getQuantity())));
-        storage.setQuantity(storage.getQuantity() - order.getQuantity());
+        Integer quantity = storage.getQuantity() - order.getQuantity();
+        if (quantity < 0) {
+            log.error(order.getProductName() + "库存不足！");
+            int a = 1 / 0;
+        }
+        storage.setQuantity(quantity);
         storageService.updateById(storage);
-
         Account sellerAccount = accountService.updateAccount(order, seller, 1);
         Account buyerAccount = accountService.updateAccount(order, buyer, 2);
         insert(order);
-        int a = 1 / 0;
     }
     /**
      * 保存信息

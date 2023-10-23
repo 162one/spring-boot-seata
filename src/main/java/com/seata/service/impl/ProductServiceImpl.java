@@ -8,6 +8,7 @@ import com.seata.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @DS("storage")
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     @Resource

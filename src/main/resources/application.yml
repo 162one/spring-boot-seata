@@ -6,6 +6,15 @@ server:
 spring:
   application:
     name: user-center
+  redis:
+    cluster:
+      nodes: localhost:6379
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 20
+    url: "redis://localhost:6379"
   datasource:
     druid:
       stat-view-servlet:
@@ -61,6 +70,11 @@ spring:
           username: root
           password: root
           url: jdbc:mysql://localhost:3306/storage_center?allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        test:
+          username: root
+          password: root
+          url: jdbc:mysql://localhost:3306/test_center?allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
           driver-class-name: com.mysql.cj.jdbc.Driver
 
       # WebStatFilter 用于采集 web-jdbc 关联监控的数据。

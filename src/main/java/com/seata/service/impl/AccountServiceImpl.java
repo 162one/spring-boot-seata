@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 
 /**
  * 
@@ -117,10 +118,17 @@ public class AccountServiceImpl implements AccountService {
             account = new Account();
         }
         account.setUserId(user.getId());
+        //seller 卖家
         if (type == 1) {
             account.setMoney(account.getMoney().add(order.getMoney()));
         } else {
-            account.setMoney(account.getMoney().subtract(order.getMoney()));
+            //买家
+            BigDecimal money = account.getMoney().subtract(order.getMoney());
+            if (money.compareTo(BigDecimal.ZERO) < 0) {
+                log.error(user.getUsername() + "余额不足！");
+                int a = 1 / 0;
+            }
+            account.setMoney(money);
         }
         if (account.getId() == null) {
             insert(account);
