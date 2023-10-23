@@ -113,6 +113,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account updateAccount(Order order, User user, Integer type) {
+        log.info("AccountServiceImpl.updateAccount:order:{},user:{},type:{}", JSON.toJSON(order), JSON.toJSON(user), type);
         Account account = getByUserId(user.getId());
         if (account == null) {
             account = new Account();

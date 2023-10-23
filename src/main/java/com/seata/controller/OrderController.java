@@ -48,6 +48,7 @@ public class OrderController {
         Random random = new Random();
         Long productId = Long.valueOf(random.nextInt(5) + 1);
         Long buyerId = Long.valueOf(random.nextInt(4) + 1);
+        order.setSellerId(5L);
         order.setBuyerId(buyerId);
         order.setProductId(productId);
         order.setProductName(productService.getById(productId).getName());
