@@ -3,11 +3,12 @@ package com.seata.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.seata.entity.*;
+import com.seata.exception.BizException;
+import com.seata.exception.ExceptionEnum;
 import com.seata.mapper.OrderMapper;
 import com.seata.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -79,8 +80,7 @@ public class OrderServiceImpl implements OrderService {
         order.setMoney(product.getPrice().multiply(BigDecimal.valueOf(order.getQuantity())));
         Integer quantity = storage.getQuantity() - order.getQuantity();
         if (quantity < 0) {
-            log.error(order.getProductName() + "库存不足！");
-            int a = 1 / 0;
+            throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR, order.getProductName() + "库存不足！");
         }
         storage.setQuantity(quantity);
         storageService.updateById(storage);

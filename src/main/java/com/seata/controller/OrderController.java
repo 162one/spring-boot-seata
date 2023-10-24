@@ -1,5 +1,6 @@
 package com.seata.controller;
 
+import com.seata.entity.AjaxResult;
 import com.seata.entity.Order;
 import com.seata.service.OrderService;
 import com.seata.service.ProductService;
@@ -44,7 +45,7 @@ public class OrderController {
     @PostMapping("/save")
     @ApiOperation("保存信息")
     @GlobalTransactional
-    public void save(@RequestBody @Validated Order order) {
+    public AjaxResult save(@RequestBody @Validated Order order) {
         Random random = new Random();
         Long productId = Long.valueOf(random.nextInt(5) + 1);
         Long buyerId = Long.valueOf(random.nextInt(4) + 1);
@@ -63,6 +64,7 @@ public class OrderController {
             //释放锁
             lock.unlock();
         }
+        return AjaxResult.success();
     }
 
     /**
@@ -73,8 +75,8 @@ public class OrderController {
      */
     @GetMapping("info/{id}")
     @ApiOperation("订单信息")
-    public Order info(@ApiParam(name = "id", value = "费用明细Id", required = true) @PathVariable Long id){
+    public AjaxResult info(@ApiParam(name = "id", value = "费用明细Id", required = true) @PathVariable Long id){
 
-        return orderService.info(id);
+        return AjaxResult.success(orderService.info(id));
     }
 }

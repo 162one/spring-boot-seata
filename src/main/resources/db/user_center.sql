@@ -11,7 +11,7 @@
  Target Server Version : 80034
  File Encoding         : 65001
 
- Date: 19/10/2023 10:32:51
+ Date: 24/10/2023 16:13:05
 */
 
 SET NAMES utf8mb4;
@@ -26,13 +26,16 @@ CREATE TABLE `t_account`  (
   `user_id` bigint NOT NULL,
   `money` decimal(10, 2) NOT NULL DEFAULT 0.00,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_account
 -- ----------------------------
-INSERT INTO `t_account` VALUES (1, 1, 1000.00);
-INSERT INTO `t_account` VALUES (2, 2, 1000.00);
+INSERT INTO `t_account` VALUES (1, 1, 5000.00);
+INSERT INTO `t_account` VALUES (2, 2, 5000.00);
+INSERT INTO `t_account` VALUES (3, 3, 5000.00);
+INSERT INTO `t_account` VALUES (4, 4, 5000.00);
+INSERT INTO `t_account` VALUES (5, 5, 0.00);
 
 -- ----------------------------
 -- Table structure for t_user
@@ -43,13 +46,16 @@ CREATE TABLE `t_user`  (
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `age` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
 INSERT INTO `t_user` VALUES (1, '张三', 20);
 INSERT INTO `t_user` VALUES (2, '李四', 22);
+INSERT INTO `t_user` VALUES (3, '王五', 25);
+INSERT INTO `t_user` VALUES (4, '赵六', 30);
+INSERT INTO `t_user` VALUES (5, '商人', 40);
 
 -- ----------------------------
 -- Table structure for undo_log

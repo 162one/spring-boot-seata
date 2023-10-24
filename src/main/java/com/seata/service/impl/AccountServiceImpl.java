@@ -5,6 +5,8 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import com.seata.entity.Account;
 import com.seata.entity.Order;
 import com.seata.entity.User;
+import com.seata.exception.BizException;
+import com.seata.exception.ExceptionEnum;
 import com.seata.mapper.AccountMapper;
 import com.seata.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
@@ -126,8 +128,7 @@ public class AccountServiceImpl implements AccountService {
             //买家
             BigDecimal money = account.getMoney().subtract(order.getMoney());
             if (money.compareTo(BigDecimal.ZERO) < 0) {
-                log.error(user.getUsername() + "余额不足！");
-                int a = 1 / 0;
+                throw new BizException(ExceptionEnum.INTERNAL_SERVER_ERROR, user.getUsername() + "余额不足！");
             }
             account.setMoney(money);
         }

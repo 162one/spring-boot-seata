@@ -11,7 +11,7 @@
  Target Server Version : 80034
  File Encoding         : 65001
 
- Date: 19/10/2023 10:32:57
+ Date: 24/10/2023 16:12:53
 */
 
 SET NAMES utf8mb4;
@@ -26,13 +26,16 @@ CREATE TABLE `t_product`  (
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `price` decimal(10, 2) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_product
 -- ----------------------------
-INSERT INTO `t_product` VALUES (1, 'A', 100.00);
-INSERT INTO `t_product` VALUES (2, 'B', 20.00);
+INSERT INTO `t_product` VALUES (1, 'A', 388.00);
+INSERT INTO `t_product` VALUES (2, 'B', 19.00);
+INSERT INTO `t_product` VALUES (3, 'C', 48.00);
+INSERT INTO `t_product` VALUES (4, 'D', 99.00);
+INSERT INTO `t_product` VALUES (5, 'E', 198.00);
 
 -- ----------------------------
 -- Table structure for t_storage
@@ -43,13 +46,16 @@ CREATE TABLE `t_storage`  (
   `product_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `quantity` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_storage
 -- ----------------------------
-INSERT INTO `t_storage` VALUES (1, '1', 100);
-INSERT INTO `t_storage` VALUES (2, '2', 50);
+INSERT INTO `t_storage` VALUES (1, '1', 25);
+INSERT INTO `t_storage` VALUES (2, '2', 1000);
+INSERT INTO `t_storage` VALUES (3, '3', 100);
+INSERT INTO `t_storage` VALUES (4, '4', 100);
+INSERT INTO `t_storage` VALUES (5, '5', 50);
 
 -- ----------------------------
 -- Table structure for undo_log
