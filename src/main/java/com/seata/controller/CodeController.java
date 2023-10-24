@@ -1,6 +1,7 @@
 package com.seata.controller;
 
 import com.seata.entity.Account;
+import com.seata.entity.AjaxResult;
 import com.seata.entity.Code;
 import com.seata.service.AccountService;
 import com.seata.service.CodeService;
@@ -37,10 +38,10 @@ public class CodeController {
      */
     @GetMapping("/{id}")
     @ApiOperation("信息")
-    public Account info(@ApiParam(name = "id", value = "Id", required = true) @PathVariable Long id){
+    public AjaxResult info(@ApiParam(name = "id", value = "Id", required = true) @PathVariable Long id){
 
-        Account account = accountService.info(id);
-        return account;
+        Code code = codeService.info(id);
+        return AjaxResult.success(code);
     }
 
     /**
@@ -51,9 +52,10 @@ public class CodeController {
      */
     @PostMapping("/save")
     @ApiOperation("保存信息")
-    public void save(@RequestBody @Validated Account account){
+    public AjaxResult save(@RequestBody @Validated Account account){
 
         codeService.insert(new Code());
+        return AjaxResult.success();
     }
 
     /**
@@ -61,9 +63,10 @@ public class CodeController {
      */
     @PostMapping("/update")
     @ApiOperation("修改信息")
-    public void update(@RequestBody @Validated Account account){
+    public AjaxResult update(@RequestBody @Validated Account account){
 
         accountService.update(account);
+        return AjaxResult.success();
     }
 
     /**
@@ -71,8 +74,9 @@ public class CodeController {
      */
     @PostMapping("/delete/{id}")
     @ApiOperation("删除信息")
-    public void delete(@ApiParam(name = "id", value = "Id", required = true) @PathVariable Long id){
+    public AjaxResult delete(@ApiParam(name = "id", value = "Id", required = true) @PathVariable Long id){
 
         accountService.deleteById(id);
+        return AjaxResult.success();
     }
 }

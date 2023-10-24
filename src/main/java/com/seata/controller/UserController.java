@@ -1,5 +1,6 @@
 package com.seata.controller;
 
+import com.seata.entity.AjaxResult;
 import com.seata.entity.User;
 import com.seata.service.UserService;
 import io.swagger.annotations.Api;
@@ -34,10 +35,10 @@ public class UserController {
      */
     @GetMapping("/{id}")
     @ApiOperation("信息")
-    public User info(@ApiParam(name = "id", value = "Id", required = true) @PathVariable Long id){
+    public AjaxResult info(@ApiParam(name = "id", value = "Id", required = true) @PathVariable Long id){
 
         User user = userService.info(id);
-        return user;
+        return AjaxResult.success(user);
     }
 
     /**
@@ -48,9 +49,10 @@ public class UserController {
      */
     @PostMapping("/save")
     @ApiOperation("保存信息")
-    public void save(@RequestBody @Validated User user){
+    public AjaxResult save(@RequestBody @Validated User user){
 
         userService.insert(user);
+        return AjaxResult.success();
     }
 
     /**
@@ -58,9 +60,10 @@ public class UserController {
      */
     @PostMapping("/update")
     @ApiOperation("修改信息")
-    public void update(@RequestBody @Validated User user){
+    public AjaxResult update(@RequestBody @Validated User user){
 
         userService.update(user);
+        return AjaxResult.success();
     }
 
     /**
@@ -68,8 +71,9 @@ public class UserController {
      */
     @PostMapping("/delete/{id}")
     @ApiOperation("删除信息")
-    public void delete(@ApiParam(name = "id", value = "Id", required = true) @PathVariable Long id){
+    public AjaxResult delete(@ApiParam(name = "id", value = "Id", required = true) @PathVariable Long id){
 
         userService.deleteById(id);
+        return AjaxResult.success();
     }
 }

@@ -1,7 +1,6 @@
 package com.seata.entity;
 
 import com.alibaba.fastjson.JSONObject;
-import com.seata.exception.BizException;
 import com.seata.exception.ExceptionEnum;
 import lombok.Data;
 
