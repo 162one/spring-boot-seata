@@ -2,7 +2,9 @@ package com.seata.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -16,6 +18,8 @@ import java.io.Serializable;
  */
 @Data
 @ApiModel("信息")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Code implements Serializable {
 
 	private static final long serialVersionUID = 1L;

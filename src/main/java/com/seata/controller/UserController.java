@@ -1,79 +1,68 @@
 package com.seata.controller;
 
-import com.seata.entity.AjaxResult;
-import com.seata.entity.User;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.seata.domain.AjaxResult;
 import com.seata.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import org.springframework.validation.annotation.Validated;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
+import com.seata.entity.User;
 
 /**
- * 管理
+ * 用户表管理
  *
  * @author wz
  * @email 
- * @date 2023-09-28 15:12:29
+ * @date 2023-10-27 15:40:10
  */
 @RestController
 @RequestMapping("/user")
-@Api(tags = "管理")
+@Tag(name = "user-controller", description = "用户表管理")
 public class UserController {
 
     @Resource
     private UserService userService;
 
-
     /**
-     * 信息
+     * 用户表信息
      *
      * @param id
      * @return
      */
     @GetMapping("/{id}")
-    @ApiOperation("信息")
-    public AjaxResult info(@ApiParam(name = "id", value = "Id", required = true) @PathVariable Long id){
+    @Operation(summary = "用户表信息")
+    public AjaxResult<User> info(@Parameter(description = "ID") @PathVariable Long id){
 
-        User user = userService.info(id);
+        User user = userService.getById(id);
         return AjaxResult.success(user);
     }
 
     /**
-     * 保存信息
+     * 保存用户表信息
      *
      * @param user
      * @return
      */
-    @PostMapping("/save")
-    @ApiOperation("保存信息")
-    public AjaxResult save(@RequestBody @Validated User user){
+    @PostMapping
+    @Operation(summary = "保存用户表列表")
+    public AjaxResult save(@RequestBody User user){
 
-        userService.insert(user);
+        userService.save(user);
         return AjaxResult.success();
     }
 
     /**
-     * 修改信息
+     * 修改用户表信息
+     *
+     * @param user
      */
-    @PostMapping("/update")
-    @ApiOperation("修改信息")
-    public AjaxResult update(@RequestBody @Validated User user){
+    @PutMapping
+    @Operation(summary = "修改用户表列表")
+    public AjaxResult update(@RequestBody User user){
 
-        userService.update(user);
-        return AjaxResult.success();
-    }
-
-    /**
-     * 删除信息
-     */
-    @PostMapping("/delete/{id}")
-    @ApiOperation("删除信息")
-    public AjaxResult delete(@ApiParam(name = "id", value = "Id", required = true) @PathVariable Long id){
-
-        userService.deleteById(id);
+        userService.updateById(user);
         return AjaxResult.success();
     }
 }

@@ -1,8 +1,10 @@
-package com.seata.entity;
+package com.seata.domain;
 
 import com.alibaba.fastjson.JSONObject;
 import com.seata.exception.ExceptionEnum;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 平台响应基础模型
@@ -10,7 +12,7 @@ import lombok.Data;
  */
 @Data
 //@Schema(description = "平台响应基础模型")
-public class AjaxResult<T> {
+public class AjaxResult<T> implements Serializable {
 
     private static final long serialVersionUID = 6554368114187277861L;
 
@@ -56,6 +58,14 @@ public class AjaxResult<T> {
         AjaxResult<T> responseDTO = new AjaxResult<>();
         responseDTO.setCode(respEnum.getCode());
         responseDTO.setMsg(respEnum.getMsg());
+        return responseDTO;
+    }
+
+
+    public static <T> AjaxResult<T> fail(ExceptionEnum respEnum, String msg) {
+        AjaxResult<T> responseDTO = new AjaxResult<>();
+        responseDTO.setCode(respEnum.getCode());
+        responseDTO.setMsg(msg);
         return responseDTO;
     }
 

@@ -2,6 +2,7 @@ package com.seata.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.seata.entity.*;
 import com.seata.exception.BizException;
 import com.seata.exception.ExceptionEnum;
@@ -20,7 +21,7 @@ import java.math.BigDecimal;
 @Service
 @Slf4j
 @DS("order")
-public class OrderServiceImpl implements OrderService {
+public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
 
     @Resource
     private OrderMapper orderMapper;
@@ -34,42 +35,17 @@ public class OrderServiceImpl implements OrderService {
     private StorageService storageService;
 
     /**
-     * 详细信息
-     *
-     * @param id ID
-     * @return 结果
-     */
-    @Override
-    public Order info(Long id) {
-
-        log.info("OrderFacadeImpl.info:入参：id:{}", id);
-        Order order = orderMapper.selectByPrimaryKey(id);
-        return order;
-    }
-
-    /**
-     * 详细信息
-     *
-     * @param id ID
-     * @return 结果
-     */
-    @Override
-    public Order getById(Long id) {
-
-        log.info("OrderFacadeImpl.getById:入参：id:{}", id);
-        return orderMapper.selectByPrimaryKey(id);
-    }
-
-    /**
-     * 保存信息
+     * 保存订单信息
      *
      * @param order
      * @return 结果
      */
     @Override
-    public void save(Order order) {
+    public void saveOrder(Order order) {
 
         log.info("OrderFacadeImpl.insert:入参：order:{}", JSON.toJSON(order));
+//        Long num = null;
+//        num.toString();
         User seller = userService.getById(order.getSellerId());
         User buyer = userService.getById(order.getBuyerId());
 
@@ -86,55 +62,6 @@ public class OrderServiceImpl implements OrderService {
         storageService.updateById(storage);
         Account sellerAccount = accountService.updateAccount(order, seller, 1);
         Account buyerAccount = accountService.updateAccount(order, buyer, 2);
-        insert(order);
-    }
-    /**
-     * 保存信息
-     *
-     * @param order
-     * @return 结果
-     */
-    @Override
-    public void insert(Order order) {
-
-        log.info("OrderFacadeImpl.insert:入参：order:{}", JSON.toJSON(order));
-        orderMapper.insertSelective(order);
-    }
-
-    /**
-     * 修改信息
-     *
-     * @param order
-     * @return 结果
-     */
-    @Override
-    public void update(Order order) {
-        log.info("OrderFacadeImpl.update:入参：order:{}", JSON.toJSON(order));
-        orderMapper.updateByPrimaryKeySelective(order);
-    }
-
-    /**
-     * 修改信息
-     *
-     * @param order
-     * @return 结果
-     */
-    @Override
-    public void updateById(Order order) {
-        log.info("OrderFacadeImpl.updateById:入参：order:{}", JSON.toJSON(order));
-        orderMapper.updateByPrimaryKeySelective(order);
-    }
-
-    /**
-     * 删除信息
-     *
-     * @param id 需要删除的ID
-     * @return 结果
-     */
-    @Override
-    public void deleteById(Long id) {
-
-        log.info("OrderFacadeImpl.deleteById:入参：id:{}", id);
-        orderMapper.deleteByPrimaryKey(id);
+        save(order);
     }
 }

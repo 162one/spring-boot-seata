@@ -11,7 +11,7 @@
  Target Server Version : 80034
  File Encoding         : 65001
 
- Date: 24/10/2023 16:12:53
+ Date: 27/10/2023 14:42:34
 */
 
 SET NAMES utf8mb4;
@@ -22,11 +22,16 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_product`;
 CREATE TABLE `t_product`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `price` decimal(10, 2) NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '产品名称',
+  `price` decimal(10, 2) NOT NULL COMMENT '单价',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 0：禁用 1：启用',
+  `create_by` bigint NOT NULL DEFAULT '0' COMMENT '创建人ID',
+  `create_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建人名称',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '产品表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_product
@@ -42,20 +47,25 @@ INSERT INTO `t_product` VALUES (5, 'E', 198.00);
 -- ----------------------------
 DROP TABLE IF EXISTS `t_storage`;
 CREATE TABLE `t_storage`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `product_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `quantity` int NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `product_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '产品Id',
+  `quantity` int NOT NULL COMMENT '库存数量',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态 0：禁用 1：启用',
+  `create_by` bigint NOT NULL DEFAULT '0' COMMENT '创建人ID',
+  `create_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建人名称',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '产品库存表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_storage
 -- ----------------------------
-INSERT INTO `t_storage` VALUES (1, '1', 25);
-INSERT INTO `t_storage` VALUES (2, '2', 1000);
-INSERT INTO `t_storage` VALUES (3, '3', 100);
-INSERT INTO `t_storage` VALUES (4, '4', 100);
-INSERT INTO `t_storage` VALUES (5, '5', 50);
+INSERT INTO `t_storage` VALUES (1, '1', 15);
+INSERT INTO `t_storage` VALUES (2, '2', 30);
+INSERT INTO `t_storage` VALUES (3, '3', 30);
+INSERT INTO `t_storage` VALUES (4, '4', 30);
+INSERT INTO `t_storage` VALUES (5, '5', 30);
 
 -- ----------------------------
 -- Table structure for undo_log

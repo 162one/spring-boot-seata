@@ -64,5 +64,10 @@
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from t_account WHERE id = #{id,jdbcType=BIGINT}
     </delete>
-
+<!--    <update id="deleteByIds" parameterType="list">-->
+<!--        UPDATE t_account SET del_flag = 1 WHERE id IN-->
+<!--        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">-->
+<!--            #{item}-->
+<!--        </foreach>-->
+<!--    </update>-->
 </mapper>

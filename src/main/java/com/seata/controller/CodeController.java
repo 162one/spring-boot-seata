@@ -1,7 +1,7 @@
 package com.seata.controller;
 
 import com.seata.entity.Account;
-import com.seata.entity.AjaxResult;
+import com.seata.domain.AjaxResult;
 import com.seata.entity.Code;
 import com.seata.service.AccountService;
 import com.seata.service.CodeService;
@@ -65,18 +65,7 @@ public class CodeController {
     @ApiOperation("修改信息")
     public AjaxResult update(@RequestBody @Validated Account account){
 
-        accountService.update(account);
-        return AjaxResult.success();
-    }
-
-    /**
-     * 删除信息
-     */
-    @PostMapping("/delete/{id}")
-    @ApiOperation("删除信息")
-    public AjaxResult delete(@ApiParam(name = "id", value = "Id", required = true) @PathVariable Long id){
-
-        accountService.deleteById(id);
+        accountService.updateById(account);
         return AjaxResult.success();
     }
 }

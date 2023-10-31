@@ -5,14 +5,16 @@
 
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.seata.entity.Order" id="orderMap">
-        <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="productId" column="product_id" jdbcType="INTEGER"/>
+        <result property="productId" column="product_id" jdbcType="BIGINT"/>
         <result property="productName" column="product_name" jdbcType="VARCHAR"/>
         <result property="quantity" column="quantity" jdbcType="INTEGER"/>
         <result property="price" column="price" jdbcType="DECIMAL"/>
         <result property="money" column="money" jdbcType="DECIMAL"/>
         <result property="sellerId" column="seller_id" jdbcType="BIGINT"/>
         <result property="buyerId" column="buyer_id" jdbcType="BIGINT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -26,6 +28,12 @@
             `t_order`
         where
             id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="list" resultMap="orderMap">
+        select
+            <include refid="Base_Column_List" />
+        from
+            `t_order`
     </select>
 
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.seata.entity.Order" useGeneratedKeys="true">

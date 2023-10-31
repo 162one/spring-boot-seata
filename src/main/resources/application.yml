@@ -4,8 +4,14 @@ server:
     logDeletePeriod: 86400000
     logSaveDays: 7
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy:  ant_path_matcher
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   application:
-    name: user-center
+    name: seata-center
   redis:
     cluster:
       nodes: localhost:6379
@@ -112,6 +118,9 @@ seata:
     file:
       name: "file.conf"
     type: file
+  client:
+    undo:
+      logSerialization: kryo
 #  service:
 #    # 应用程序（客户端）会通过用户配置的配置中心去寻找service.vgroupMapping.[事务分组配置项]
 #    vgroup-mapping:
@@ -122,16 +131,37 @@ seata:
 #  client:
 #    rm:
 #      report-success-enable: true
-
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    doc-expansion: none
+    persist-authorization: true
 management:
   endpoints:
     web:
       exposure:
         include: '*'
-
-mybatis:
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔 更不不需要一样
+  typeAliasesPackage: com.seata.entity
+  global-config:
+    #数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: AUTO
+      logic-delete-value: -1
+      logic-not-delete-value: 0
+    banner: false
+  #原生配置
   configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  mapper-locations: classpath:mapper/*.xml
 
 

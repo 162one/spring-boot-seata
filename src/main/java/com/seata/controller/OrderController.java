@@ -1,32 +1,38 @@
 package com.seata.controller;
 
-import com.seata.entity.AjaxResult;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.seata.domain.AjaxResult;
 import com.seata.entity.Order;
+import com.seata.entity.Product;
+import com.seata.entity.Storage;
 import com.seata.service.OrderService;
 import com.seata.service.ProductService;
+import com.seata.service.StorageService;
 import io.seata.spring.annotation.GlobalTransactional;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 管理
+ * 订单表管理
  *
  * @author wz
- * @email 
- * @date 2023-09-28 15:12:29
+ * @email
+ * @date 2023-10-27 15:37:33
  */
 @RestController
 @RequestMapping("/order")
-@Api(tags = "管理")
+@Tag(name = "order-controller", description = "订单表管理")
 public class OrderController {
 
     @Resource
@@ -34,7 +40,21 @@ public class OrderController {
     @Resource
     private ProductService productService;
     @Resource
+    private StorageService storageService;
+    @Resource
     private RedissonClient redisson;
+
+    /**
+     * 订单信息列表
+     *
+     * @return
+     */
+    @GetMapping("list")
+    @ApiOperation("订单信息")
+    public AjaxResult list(){
+        List<Order> orders = orderService.list(new QueryWrapper<>());
+        return AjaxResult.success(orders);
+    }
 
     /**
      * 保存信息
@@ -47,9 +67,10 @@ public class OrderController {
     @GlobalTransactional
     public AjaxResult save(@RequestBody @Validated Order order) {
         Random random = new Random();
-        Long productId = Long.valueOf(random.nextInt(5) + 1);
-        Long buyerId = Long.valueOf(random.nextInt(4) + 1);
-        order.setSellerId(5L);
+        Long productId = Long.valueOf(random.nextInt(10) + 1);
+        Long buyerId = Long.valueOf(random.nextInt(4) + 1) + 2;
+        Long sellerId = storageService.getOne(new QueryWrapper<Storage>().eq("product_id", productId)).getCreateBy();
+        order.setSellerId(sellerId);
         order.setBuyerId(buyerId);
         order.setProductId(productId);
         order.setProductName(productService.getById(productId).getName());
@@ -59,7 +80,7 @@ public class OrderController {
         try {
             //加锁,可以指定锁定时间
             lock.lock(10, TimeUnit.SECONDS);
-            orderService.save(order);
+            orderService.saveOrder(order);
         } finally {
             //释放锁
             lock.unlock();
@@ -75,8 +96,8 @@ public class OrderController {
      */
     @GetMapping("info/{id}")
     @ApiOperation("订单信息")
-    public AjaxResult info(@ApiParam(name = "id", value = "费用明细Id", required = true) @PathVariable Long id){
+    public AjaxResult info(@ApiParam(name = "id", value = "订单Id", required = true) @PathVariable Long id){
 
-        return AjaxResult.success(orderService.info(id));
+        return AjaxResult.success(orderService.getById(id));
     }
 }
